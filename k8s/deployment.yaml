@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: game-hub
+  name: deployment-game-hub
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: game-hub
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: game-hub
+    spec:
+      containers:
+        - name: game-hub
+          image: public.ecr.aws/l6m2t8p7/docker-2048:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
