@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>⭕ Tic-Tac-Toe ❌</h2>
+
+<div id="board" class="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+</div>
+
+<h3 id="status" class="status">Player X's turn</h3>
+
+<button onclick="restartGame()">Restart</button>
+
+<script src="{{ url_for('static', filename='tictactoe.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>🔢 Guess the Number</h2>
+
+<div class="level">Level: {{ level }}</div>
+<div class="score">Best Score: {{ high_score }}</div>
+<div class="score">Range: 1 to {{ max_number }}</div>
+
+{% if message %}
+    <div class="message">{{ message }}</div>
+{% endif %}
+
+<form method="POST">
+    <input type="number" name="guess" placeholder="Enter your guess" required>
+    <button type="submit">Submit Guess</button>
+</form>
+
+<br>
+<a href="/reset">
+    <button>Reset Game</button>
+</a>
+
+{% endblock %}

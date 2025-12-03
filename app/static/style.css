@@ -1,0 +1,104 @@
+body {
+    font-family: Poppins, sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    margin: 0;
+    color: white;
+}
+
+.container {
+    width: 450px;
+    margin: 60px auto;
+    background: rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    background: #ffcd3c;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #ffe07d;
+    transform: scale(1.03);
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 1.3em;
+    text-align: center;
+    animation: pop 0.4s ease-out;
+}
+
+.level, .score {
+    text-align: center;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+@keyframes fadeIn {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 8px;
+    margin: 20px auto;
+    justify-content: center;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cell:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+.status {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
