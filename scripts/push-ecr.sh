@@ -52,7 +52,7 @@ aws ecr get-login-password --region ${AWS_REGION} \
 #########################
 
 echo "🐳 Building Docker image..."
-docker build -t ${IMAGE_NAME}:${TAG} ./app
+docker build -t ${IMAGE_NAME}:${TAG} /home/ubuntu/app
 
 #########################
 # TAG IMAGE FOR ECR
