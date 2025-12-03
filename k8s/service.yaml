@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: game-hub
+  name: service-game-hub
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: game-hub
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP
