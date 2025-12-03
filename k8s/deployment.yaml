@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: game-hub
-          image: public.ecr.aws/l6m2t8p7/docker-2048:latest
+          image: 928413605425.dkr.ecr.us-east-1.amazonaws.com/development/game-hub:version1
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
