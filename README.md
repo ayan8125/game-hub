@@ -52,6 +52,15 @@ sudo apt-get update
 sudo apt-get install -y docker.io
 ```
 
+Minikube
+```
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+```
+
+```
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+```
+
 kubectl
 ```
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" 
@@ -108,7 +117,7 @@ Your credentials will be stored in:
 ### Verify Your Configuration
 
 ```
-Verify Your Configuration
+aws sts get-caller-identity
 ```
 
 Expected output:
@@ -158,8 +167,14 @@ game-hub/iam/EksAllAccess.json
   5. Click Next → Next → Create Policy
   6. Attach the newly created policy to your IAM User.
 
+## Clone Repository
 
-## 🟣 Push Application Image to Amazon ECR
+```
+git clone https://github.com/<username>/<repo-name>.git
+cd game-hub
+```
+
+## Push Application Image to Amazon ECR
 
 Use a script to build & push image.
 
@@ -179,12 +194,12 @@ docker tag sample-game-app:latest <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.c
 docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/sample-game-app:latest
 ```
 
-## 🟦 Create EKS Cluster
+##  Create EKS Cluster
 ```
 eksctl create cluster --name game-hub-cluster --region us-east-1 --fargate
 ```
 
-## 🟦 Create Fargate profile
+## Create Fargate profile
 
 ```
 eksctl create fargateprofile \
@@ -194,12 +209,12 @@ eksctl create fargateprofile \
     --namespace game-hub
 ```
 
-## 🟦 Deploy the deployment, service and Ingress
+## Deploy the deployment, service and Ingress
 
 
 
 
-🔐 Configure IAM OIDC Provider
+Configure IAM OIDC Provider
 
 ```
 oidc_id=$(aws eks describe-cluster --name game-hub-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5) 
@@ -212,17 +227,7 @@ eksctl utils associate-iam-oidc-provider \
 ```
 
 
-
-🟡 Create Fargate Profile
-```
-eksctl create fargateprofile \
-  --cluster game-hub-cluster \
-  --region us-east-1 \
-  --name alb-game-hub \
-  --namespace game-hub
-```
-
-🟠 Install AWS Load Balancer Controller
+Install AWS Load Balancer Controller
 1. Download IAM policy
 ```
 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
@@ -268,12 +273,20 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n ku
 kubectl get deployment -n kube-system aws-load-balancer-controller
 ```
 
-🧩 Deploy Kubernetes Application
+Deploy Kubernetes Application
 Apply manifests
 ```
 kubectl apply -f k8s/namespace.yaml
+```
+```
 kubectl apply -f k8s/deployment.yaml
+```
+
+```
 kubectl apply -f k8s/service.yaml
+```
+
+```
 kubectl apply -f k8s/ingress.yaml
 ```
 
@@ -304,15 +317,9 @@ Open in browser:
 ```http://k8s-gamehub-xxxxx.us-east-1.elb.amazonaws.com```
 
 
-🎉 Your Flask game app should load.
+Your Flask game app should load.
 
-🧪 Debug Commands
-Check ALB targets
-```
-aws elbv2 describe-target-health \
-  --target-group-arn <TG_ARN>
-```
-
+Debug Commands
 Check pod HTTP response
 ``` 
 kubectl exec -it <pod-name> -n game-hub -- curl -I http://localhost:5000/
@@ -321,27 +328,27 @@ Expected:
 
 ``` HTTP/1.1 200 OK ```
 
-🟢 Notes
+Notes
 
-Kubernetes pods run entirely on AWS Fargate (serverless)
+  - Kubernetes pods run entirely on AWS Fargate (serverless)
 
-No EC2 node groups required
+  - No EC2 node groups required
 
-IAM is handled via IRSA
+  - IAM is handled via IRSA
 
-ALB is automatically created by Kubernetes Ingress
+  - ALB is automatically created by Kubernetes Ingress
 
-DNS uses AWS Load Balancer DNS hostname
+  - DNS uses AWS Load Balancer DNS hostname
 
-🧠 Future Enhancements
+Future Enhancements
 
-✔ CloudWatch Fluent Bit deployment
+  - CloudWatch Fluent Bit deployment
 
-✔ HTTPS using ACM + alb.ingress.kubernetes.io/certificate-arn
+  - HTTPS using ACM + alb.ingress.kubernetes.io/certificate-arn
 
-✔ Helm chart for app deployment
+  - Helm chart for app deployment
 
-✔ ECR image versioning via Git commit tags
+  - ECR image versioning via Git commit tags
 
-✔ Terraform version of cluster setup
+  - Terraform version of cluster setup
 
